@@ -1,0 +1,164 @@
+swagger: '2.0'
+info:
+  description: This is an API for renting sharing power banks
+  version: 1.0.0
+  title: Renting power bank API
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+paths:
+  /report/renting_request:
+    post:
+      summary: reports renting request
+      operationId: app.report_renting_request
+      description: Stores a renting request
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: rentingRequest
+        description: Renting request
+        schema:
+          $ref: '#/definitions/RentingRequest'
+      responses:
+        201:
+          description: item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+
+  /report/charging_box_status:
+    post:
+      summary: reports charging box status
+      operationId: app.report_charging_box_status
+      description: Stores a charging box status
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: chargingBoxStatus
+        description: Charging Box Status
+        schema:
+          $ref: '#/definitions/ChargingBoxStatus'
+      responses:
+        201:
+          description: item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+
+definitions:
+  RentingRequest:
+    type: object
+    required:
+    - user_id
+    - user_device_id
+    - charging_box_id
+    - timestamp
+    properties:
+      user_id:
+        type: integer
+        example: 100000001
+      user_device_id:
+        type: integer
+        example: 345480745
+      charging_box_id:
+        type: string
+        example: A-000001
+      timestamp:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+
+  RequestStats:
+    type: object
+    required:
+    - num_renting_request
+    - average_renting_request
+    - high_renting_request
+    - low_renting_request
+    - updated_timestamp
+    properties:
+      num_renting_request:
+        type: integer
+        example: 1000
+      average_renting_request:
+        type: integer
+        example: 900
+      high_renting_request:
+        type: integer
+        example: 1800
+      low_renting_request:
+        type: integer
+        example: 200
+      updated_timestamp:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001z
+
+  ChargingBoxStatus:
+    type: object
+    required:
+    - charging_box_id
+    - power_banks_remain
+    - power_bank_status
+    - timestamp
+    properties:
+      charging_box_id:
+        type: string
+        example: A-000001
+      power_banks_remain:
+        type: integer
+        example: 6
+      power_bank_status:
+        $ref: '#/definitions/PowerBankStatus'
+      timestamp:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001Z
+
+  PowerBankStatus:
+    required:
+    - power_bank_id
+    - battery_level
+    properties:
+      power_bank_id:
+        type: string
+        example: a-000a0f
+      battery_level:
+        type: integer
+        example: 80
+
+  ChargingBoxStatusStats:
+    type: object
+    required:
+    - num_status_report
+    - average_status_report
+    - high_status_report
+    - low_status_report
+    - updated_timestamp
+    properties:
+      num_renting_request:
+        type: integer
+        example: 1000
+      average_renting_request:
+        type: integer
+        example: 900
+      high_renting_request:
+        type: integer
+        example: 1800
+      low_renting_request:
+        type: integer
+        example: 200
+      updated_timestamp:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001z
